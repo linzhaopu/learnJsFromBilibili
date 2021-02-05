@@ -1,0 +1,882 @@
+//数据转化
+var age = 15;
+var lzp = "15";
+var result = age + lzp;
+console.log(typeof age); //number
+console.log(result); //1515
+//函数转换  parseInt()整数,parseFloat();小数
+//三元运算符
+var temperature = 16;
+console.log(temperature > 15 ? "出门" : "在家");
+console.clear();
+//break and continue
+for (let i = 0; i < 5; i++) {
+    if (i == 4) {
+        break; //结束本层循环，继续下层循环
+    } //
+    console.log(i); //0,1,2,3
+}
+for (let i = 0; i < 5; i++) {
+    if (i == 4) {
+        continue; //结束本次循环，继续下次循环
+    } //
+    console.log(i); //0,1,2,3,5
+}
+console.clear();
+//递归
+function sum(n) {
+    if ((n = 1)) {
+        return 1;
+    }
+    return n + sum(n - 1);
+}
+//函数 arguments
+function log() {
+    //console.log(arguments[0]);
+    for (let i = 0; i < arguments.length; i++) {
+        console.log(arguments[i]);
+    }
+}
+log("abc", "edf"); //输出参数"abc","edf"
+console.clear();
+//箭头函数 一个参数可以省略（），一行代码可以省略{}
+var lzp = (name, age) => console.log("你的姓名" + name + "你的年龄" + age);
+lzp("lzp", 33);
+console.clear();
+//闭包 可以调用外层函数的参数
+//返回 数值
+function squareSum(a, b) {
+    function square(x) {
+        return x * x;
+    }
+    return square(a) + square(b);
+}
+console.log(squareSum(3, 4));
+//闭包 返回是闭包函数
+function person() {
+    let name = "lzp";
+    function getName() {
+        return name;
+    }
+    return getName;
+}
+var getname = person();
+console.log(getname); //打印函数
+console.log(getname()); //执行函数
+console.clear();
+
+// 柯里化
+function addThree(a) {
+    return function (b) {
+        return function (c) {
+            return a + b + c;
+        };
+    };
+}
+console.log(addThree(1)(2)(3)); //1+2+3
+var fixed = addThree(1)(2); //3
+console.log(fixed(4)); //3+4
+console.clear();
+//自执行函数 独立作用域
+var num = 10;
+(function () {
+    var num = 20;
+    console.log(num);
+})();
+console.log(num); //20 10 ；
+console.clear();
+//回调函数 函数作为一个函数的参数执行，用另外一个函数调用
+function request(cb) {
+    console.log("1");
+    cb("resoult");
+    console.log("2");
+}
+//定义回调函数
+function callback(response) {
+    console.log("回调数据" + response);
+}
+//调用回调函数  calkback 没有园括号
+request(callback);
+request((argument) => console.log("回调" + argument)); //箭头函数充当回调函数
+console.clear();
+//数组 删除
+var arr = [1, 2, 3, 4, 5, 6];
+arr.splice(1, 0, 2); //[1,2,2,3,4,5,6]
+//数组连接
+var arr1 = [7, 8, 9];
+arr1.concat(arr);
+console.log(arr);
+//数组遍历
+//1
+for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+}
+//2
+for (let ele of arr) {
+    console.log(ele);
+}
+//3
+arr.forEach((element, index, self) => {
+    console.log(element, index, self);
+});
+//栈模式 push pop
+arr.push(5, 6, 7); //[1,2,3,4,5,6,5,6,7];尾部添加
+arr.pop(5, 6); //[1,2,3,4]尾部删除
+//列表模式 shift unshift
+arr.shift(1, 2); //[3,4,5,6]
+arr.unshift(1, 2); //[1,2,1,2,3,4,5,6]
+console.clear();
+//数组 反序
+var arr = [1, 2, 3, 4, 5, 6];
+arr.reverse();
+console.log(arr.reverse());
+//排序 sort
+arr.sort(); //升序排列
+arr.sort((a, b) => {
+    if (a > b) {
+        return -1;
+    } else if (a < b) {
+        return 1;
+    } else {
+        return 0;
+    }
+});
+arr.sort((a, b) => b - a);
+//数组 分割 反序 还原
+console.log("hello".split("").reverse().join(""));
+//数组 map 回调函数作为参数 ，回调参数1.元素 2.索引 3.对象/数组自身
+console.log(
+    arr.map((ele, index, self) => {
+        console.log(ele);
+    })
+);
+console.log(arr.map((ele) => ele * 2));
+console.clear();
+//数组 reduce
+var arr = [1, 2, 3, 4, 5, 6];
+console.log(arr.reduce((total, ele) => total + ele));
+//数组 过滤
+console.log(arr.filter((item) => item > 4)); //[5,6]
+console.log(arr.every((item) => item > 2)); //false
+console.log(arr.some((item) => item > 4)); //true
+console.log(arr); //[1, 2, 3, 4, 5, 6];
+//剩余操作符 ...
+var [a, b, ...rest] = arr;
+console.log(a, b, rest); //a=1,b=2,rest=[3,4,5,6]
+function variousArgs(...args) {
+    console.log(args);
+}
+variousArgs(1, 2, 3); //args=[1,2,3]
+//多维数组
+var arr = [];
+for (let i = 0; i < 5; i++) {
+    arr[i] = [];
+    for (let y = 0; y < 4; y++) {
+        arr[i][y] = i + y;
+    }
+}
+console.log(arr);
+// 创建对象
+var employee = {
+    name: "lzp",
+    age: 33,
+    signIn: function () {
+        console.log(this.name);
+    },
+}; //可以省略key
+// console.log(employee.signIn());
+var employee2 = new Object();
+employee2.name = "lzp";
+employee2.signIn = function () {
+    console.log("ddd");
+};
+//遍历对象属性
+console.log(Object.keys(employee));
+//遍历对象属性
+for (key in employee) {
+    console.log(key);
+}
+//对象 删除
+delete employee2.name;
+console.clear();
+// 构造函数
+function Employee(name, position) {
+    this.name = name;
+    this.postion = position;
+}
+// this 当前作用域的当前对象；
+var lzp = new Employee("林", "工程师");
+lzp.signIn = function () {
+    console.log(this.name);
+}; //普通函数可以
+lzp.signIn = () => console.log(this.name); //当前作用域是windows对象
+lzp.signIn = () => console.log(this); //当前作用域是windows对象
+console.log(lzp.signIn());
+console.clear();
+//getter 获取属性，不带参数 setter设置属性  值以参数的形式传递
+var person = {
+    firstName: "三",
+    lastName: "张",
+    get fullName() {
+        return this.lastName + this.firstName;
+    },
+    set fullName(fullName) {
+        let [lastName, firstName] = fullName.split(",");
+        this.firstName = firstName;
+        this.lastName = lastName;
+    },
+};
+console.log(person);
+person.fullName = "李,明";
+console.log(person);
+// getter setter 和 原型链
+function Employee1(name, position) {
+    this.name = name;
+    this.position = position;
+}
+var emp1 = new Employee1("赵六", "前端");
+Object.defineProperty(emp1, "info", {
+    get: function () {
+        return this.name + "" + this.position;
+    },
+    set: function (info) {
+        let [name, position] = info.split(",");
+        this.name = name;
+        this.position = position;
+    },
+});
+console.log(emp1.info);
+emp1.info = "王八,后端";
+console.log(emp1); //name:"王八"，position:"后端"
+console.clear();
+//对象原型
+function Employee(name, position) {
+    this.name = name;
+    this.position = position;
+    this.signIn = function () {
+        console.log(this.name + "打卡");
+    };
+}
+var emp1 = new Employee("张三", "前端");
+var emp2 = new Employee("李四", "后端");
+console.log(emp1);
+console.log(Employee.prototype);
+Employee.prototype.age = 20;
+console.log(emp1.age); //20
+Employee.prototype.printOut = function () {
+    console.log(this.name, this.age, this.position);
+};
+emp1.printOut();
+emp2.printOut();
+console.log(emp1.__proto__ == Employee.prototype); //true
+console.log(Object.getPrototypeOf(emp2)); //获取对象的原型
+console.clear();
+//创建对象 object.create() 对象继承
+//遍历对象
+for (key in emp1) {
+    console.log(key);
+}
+var manager = Object.create(emp1); //继承emp1对象，继承里面的属性和方法
+manager.name = "张四";
+manager.position = "大前端";
+manager.signIn();
+console.log(Object.getOwnPropertyNames(manager)); //获取自身原型属性
+console.clear();
+//原型链
+var protoOfManager = Object.getPrototypeOf(manager);
+console.log(protoOfManager); //emp1
+var protoOfEmp1 = Object.getPrototypeOf(protoOfManager);
+console.log(protoOfEmp1); //Employee
+var protoOfEmp = Object.getPrototypeOf(protoOfEmp1);
+console.log(protoOfEmp); //object
+var protoOfObj = Object.getPrototypeOf(protoOfEmp);
+console.log(protoOfObj); //null
+console.log(Object.getPrototypeOf(Object.prototype)); //nulll
+
+console.log(manager.toString()); //manager继承object的方法
+console.log(manager.toString);
+//修改原型链 指向新原型链  setPrototypeOf(对象，新原型链)；
+//定义一个构造函数
+function Manager() {}
+
+Manager.prototype.dapartment = "技术部";
+Object.setPrototypeOf(manager, Manager.prototype);
+console.log(manager.dapartment); //技术部
+//console.log(manager.signIn()); //false
+for (key in manager) {
+    console.log(key); //name position department,之前原型链属性没有了；
+}
+console.clear();
+//spread ... 操作符  和rest ...操作符相反
+var post = {
+    id: 1,
+    title: "标题1",
+    content: "这是内容",
+};
+var postClone = { ...post };
+console.log(postClone === post); //false  不是同一引用，内存地址不同
+var post1 = {
+    ...post,
+    author: "峰华",
+};
+console.log(post1); //id title content author
+var arr = [1, 2, 3, 4];
+var arr1 = [...arr, 5, 6];
+console.log(arr1); //[1,2,3,4,5,6];
+//...[] 在函数参数中的应用,分割数组元素对应函数参数
+function savePost(id, title, content) {
+    console.log("保存文章：", id, title, content);
+}
+savePost(...[2, "标题", "内容内容"]);
+//destructuring 解构 & rest
+var { id, title } = post;
+console.log(id, title); //1,标题
+//别名：
+var { id, title: headline } = post;
+console.log(headline); //标题
+//post 对象里面没有的
+var { id, title, comments = "没有评论" } = post;
+console.log(comments); //没有评论
+var [a, b = 2] = [1];
+console.log(a, b); //1,2
+//复杂对象
+var post2 = {
+    id: 2,
+    title: "标题2",
+    comments: [
+        {
+            usrId: 1,
+            comment: "评论1",
+        },
+        {
+            usrId: 2,
+            comment: "评论2",
+        },
+        {
+            usrId: 3,
+            comment: "评论3",
+        },
+    ],
+};
+var {
+    comments: [, { comment }],
+} = post2;
+console.log(comment); //评论2
+//解构参数是变量
+function getId(idKey, obj) {
+    let { [idKey]: id } = obj;
+    return id;
+}
+console.log(getId("userId", { userId: 3 })); //3
+//rest 将剩余作为子对象返回
+var { comments, ...rest } = post2;
+console.log(rest); //{id:2,title:"标题2"} 不包含commnets
+//解构作为函数参数
+function savePostObj({ id, title, content }) {
+    console.log("保存了文章", id, title, content);
+}
+savePostObj({ id: 4, title: "标题4", content: "内容4" }); //保存了文章 4 标题4 内容4
+//rest 作为函数参数
+function savePostObj({ id, title, content, ...rest }) {
+    console.log("保存了文章", id, title, content, rest);
+}
+savePostObj({
+    id: 4,
+    title: "标题4",
+    content: "内容4",
+    name: "abc",
+    age: 33,
+}); //保存了文章 4 标题4 内容4 {name:"abc",age:33}
+console.clear();
+//值传递&引用传递
+//array object 在函数参数中是引用传递 | string不同
+function byFerence(arr) {
+    arr[0] = 5;
+}
+var arr = [0, 1, 2, 3, 4, 5];
+byFerence(arr);
+console.log(arr); //[5,1,2,3,4,5];
+
+function byFerenceObj(obj) {
+    obj.title = "标题标题";
+}
+var post = { id: 1, title: "标题" };
+byFerenceObj(post);
+console.log(post); //{id:1,title:"标题标题"}
+
+function byFerenceStr(str) {
+    str = "abc";
+}
+var testStr = "edf";
+byFerenceStr(testStr);
+console.log(testStr); //edf  原字符串没有改变
+
+//值传递
+function byValue(num) {
+    num = 10;
+    console.log(num);
+}
+var testNum = 1;
+byValue(testNum); //10
+console.log(testNum); //1
+//call & apply & bind 都是用来改变函数this 的指向，都可以利用后续参数传参
+//第一个参数都是this要指向的参数
+//call(object,参数1,参数2)
+//apply(object,[参数1,参数2]);
+//bind()();
+var emp = {
+    id: 1,
+    name: "峰华",
+};
+function printInfo(dep1, dep2, dep3) {
+    console.log("员工名称" + this.name, dep1, dep2, dep3);
+}
+printInfo(); //null this指向windows对象 没有name 属性
+printInfo.call(emp, "技术部", "IT事业部", "总裁办公室"); //员工名称 峰华 "技术部","IT事业部","总裁办公室"
+printInfo.apply(emp, ["技术部", "IT事业部", "总裁办公室"]); //员工名称 峰华 "技术部","IT事业部","总裁办公室"
+printInfo.bind(emp, "技术部", "IT事业部", "总裁办公室")(); //员工名称 峰华 "技术部","IT事业部","总裁办公室"
+console.clear();
+//类
+class EmployeeClass {
+    //构造函数 关键字 constructor
+    constructor(name, position) {
+        this.name = name;
+        this.position = position;
+    }
+    //成员方法
+    signIn() {
+        console.log(this.name + "打卡上班");
+    }
+    //get set 后面跟代表属性的函数
+    get info() {
+        return this.name + this.position;
+    }
+    set info(info) {
+        let [name, position] = info.split(" ");
+        this.name = name;
+        this.position = position;
+    }
+}
+
+var emp = new EmployeeClass("峰华", "前端");
+console.log(emp); //实例化构造函数结果一样
+emp.signIn();
+console.log(emp.info);
+emp.info = "web 后端";
+console.log(emp.info);
+console.log(emp.name, emp.position);
+
+//实现继承  单继承
+class ManagerClass extends EmployeeClass {
+    constructor(name, position, dept) {
+        //调用父类的构造函数，来扩展ManagerClass 的属性
+        //父类构造函数 super();
+        super(name, position);
+        this.dept = dept;
+    }
+    //定义方法
+    signIn() {
+        //调用父类的方法
+        super.signIn();
+        console.log("额外信息：经理打卡");
+    }
+}
+
+var manager1 = new ManagerClass("王五", "经理", "技术部");
+console.log(manager1);
+manager1.signIn(); //王五打卡上班   额外信息：经理打卡
+
+console.clear();
+
+//成员变量  （新）谷歌版本大于80
+class Employee2 {
+    //成员变量 区别  构造函数可以写逻辑语句
+    dept = " ";
+}
+var emp1 = new Employee2();
+emp1.dept = "技术部";
+console.log(emp1);
+
+//静态成员 静态函数  1通过类名调用, 2 有类范围作用域，和全局变量不一样；
+
+class Page {
+    static count = 0;
+    //静态函数
+    static increaseViewCount() {
+        Page.count++;
+    }
+}
+Page.count++;
+console.log(Page.count);
+Page.increaseViewCount();
+console.log(Page.count);
+console.clear();
+//字符串
+var str = "hello!";
+console.log(str);
+
+var str2 = new String("你好");
+console.log(str2);
+//转移字符
+str3 = '他说：\n"我们\t出\\去玩 、\u1010";'; //\n 回车 \t 制表符 \u unicod 编码
+console.log(str3);
+//字符串遍历
+for (let i = 0; i < str.length; i++) {
+    console.log(str.charAt(i)); //charAt():返回指定位置的字符串；
+}
+//for(let key in  )和 forEach(()=>{}) 面对对象使用
+for (let ele of str) {
+    console.log(ele);
+}
+console.clear();
+//剪切 slice（开始索引，结束索引）  和 数组.slice 一样的;
+//substring(开始索引，结束索引) 不能是负数
+var str = "this is a long string......";
+console.log(str.slice(0, 4)); //this   不包括4；
+console.log(str.slice(4)); // is a long string...... 截取到结尾
+console.log(str.slice(4, 1)); //null;
+//拼接  + 或则 concat(str1,str2); 推荐 +
+str.toLowerCase();
+str.toUpperCase();
+//首尾空格 trim  ltrim rtrim;
+//模板字符串 `` 原样打印
+console.clear();
+var longStr = `dfdsfdsfdfd
+fdfsdfdsf
+sfdsfdsfdsf`;
+console.log(longStr);
+//变量占位符 ${}
+var name = "风华";
+var str = `你好：${name}`;
+console.log(str); //你好 风华
+//标签函数  高级用法
+function greeting(strings, gender) {
+    //console.log(strings);//["你好，峰华", "", raw: Array(2)]
+    let genderStr = "";
+    if (gender === "M") {
+        genderStr = "先生";
+    } else if (gender === "F") {
+        genderStr = "女士";
+    }
+    return `${strings[0]}${genderStr}`;
+}
+var gender = "M";
+var result = greeting`你好，峰华${gender}`;
+console.log(result); //你好，峰华先生
+console.clear();
+//正则表达式
+var str = "what where when";
+//创建
+//1 字面值
+var re = /wh/g;
+//2 构造函数RegExp()创建正则表达式对象
+var re2 = new RegExp("wh");
+//方法 exec()： 返回结果  text()： 返回 true/ false
+console.log(re.exec(str)); //["wh",index:0]
+console.log(re.exec(str)); //["wh",index:5]
+console.log(re.exec(str)); //["wh",index:11]
+console.log(re.exec(str)); //null
+console.log(re.test(str)); //true
+
+//字符匹配  //.test()
+
+console.clear();
+
+//特殊字符匹配
+// . 一个字符
+// \d 匹配 0-9
+// \w 字母 数字 下划线
+// \s \n \t 空白字符
+//  \u uniciod编码
+// \d \w 变成大写 意思相反
+var str = `this str _contains tthe
+123`;
+console.log(str.match(/th.s/g)); //this
+console.log(str.match(/\d/g)); //[1,2,3]
+console.log(str.match(/\w/g)); //["t", "h", "i", "s", "s", "t", "r", "_", "c", "o", "n", "t", "a", "i", "n", "s", "1", "2", "3"]
+console.log("你好".match(/\u4f60/g)); //你
+//匹配次数  *: 0次或者多次, .* 所有,   ""."遇到换行符就就停止
+// +  1次或多次 至少出现一次
+// ?  0次 或者1次
+console.log(str.match(/th.*/g)); //this str _contain
+console.log(str.match(/t+/g)); // "t", "t", "t", "t"
+console.log(str.match(/th?/g)); // "th", "t", "t", "th"
+//{} 出现的次数 {n} n次 {n,} 至少n次  {n-m} 范围
+console.log(str.match(/t{1}/g)); //["t", "t", "t", "t", "t"]
+console.log(str.match(/t{2}/g)); //["tt"]
+console.log(str.match(/t{1,2}/g)); //["t", "t", "t", "tt"]
+//区间 [a-z] [A-Z] [0-9] [^0-9]:不在0-9里面，匹配非数字 ,[\-]匹配 -
+// 逻辑   [a|b] 匹配a和b
+console.log(str.match(/[abc]/g)); //[c,a]
+console.log(str.match(/[a-z]/g)); //["t", "h", "i", "s", "s", "t", "r", "c", "o", "n", "t", "a", "i", "n", "s", "t", "t", "h", "e"]
+//定界符 /^abc/ abc开头  /$abc/ abc结尾  /\babc\b/ 单独abc
+
+console.clear();
+//分组 () 对模式进行分组，当作整体内容返回
+var str = `this that this and that`;
+console.log(/(th).*(th)/.exec(str)); //this that this and th", "th", "th"
+var str = `aaaab abb cddaa`;
+console.log(str.match(/(aa){2}/g)); //[aaaa]
+
+console.clear();
+
+//常见正则表达式
+//手机号
+var mobile = /^1[3-9]\d{9}/g;
+console.log(mobile.test("13345678907")); //true;
+//邮箱
+var email = /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/g;
+console.log(email.test("15058883456@123.com")); //true
+//用户名
+var username = /^[a-zA-Z][a-zA-Z0-9_]{5,14}&/g;
+console.log(username.test("_123")); //false
+//字符串替换  replace
+
+var str = `Tish is an apple`;
+console.log(str.replace("Tish", "this")); //this is an apple
+var str1 = `Tish 2is 2an 3apple`;
+console.log(str.replace(/\d+/g, "")); //Tish is an apple
+
+var html = `<span>hello</span><div>world</div>`;
+console.log(html.replace(/<[^>]*>([^<>]*)<\/[^>]*>/g, "$1")); //hello world
+
+//字符串分割 split()
+
+console.clear();
+var tags = "html ,css, javascript";
+console.log(tags.split(",")); //["html ", "css", " javascript"]
+var tags1 = "html  ^ css  * javascript";
+console.log(tags1.split(/\W+/g)); //["html", "css", "javascript"]
+
+console.clear();
+
+//内置对象
+//Number
+var strnum = "12.34";
+var num = Number.parseInt(strnum);
+console.log(num);
+console.log(typeof num); //number
+
+var strNum = "abc";
+var num = parseInt(strNum);
+console.log(num); //NaN;
+console.log(isNaN(num)); //true
+
+var num = 12.33646;
+var numStr = num.toFixed(2); //保留2位小数，返回类型是string
+console.log(numStr);
+console.log(typeof numStr); //string
+
+//返回最大不会溢出
+console.log(Number.MAX_SAFE_INTEGER);
+
+console.clear();
+//Math
+console.log(Math.PI);
+console.log(Math.abs(-9));
+console.log(Math.sin(Math.PI / 2)); //1
+console.log(Math.floor(3.67)); //3  取整数
+console.log(Math.ceil(3.67)); //4  整数加1
+console.log(Math.ceil(3.17)); //4
+console.log(Math.trunc(3.67)); //3  去掉小数点
+console.log(Math.pow(10, 3)); //1000
+console.log(Math.random()); // 0-1 之间随机小数
+
+console.clear();
+
+//Date  get换成set  设置时间
+var date = new Date();
+console.log(date); //Tue Feb 02 2021 18:20:56 GMT+0800 (中国标准时间)
+console.log(date.getFullYear()); //2021
+console.log(date.getMonth() + 1);
+console.log(date.getDay());
+console.log(date.getDate());
+console.log(date.getHours());
+console.log(date.getMinutes());
+console.log(date.getSeconds());
+//时间戳
+console.log(date.getTime()); //1970到现在的时间
+console.log(date.toLocaleTimeString()); //下午6:26:10
+console.log(date.toLocaleDateString()); //2021/2/2
+console.clear();
+//JSON  key 必须用 ""
+//定义JSON 字符串
+var postJSON = `{
+    "id":1,
+    "title":"标题1",
+    "comments":[
+        {
+            "userId":1,
+            "commet":"评论1"
+        },
+        {
+            "userId":2,
+            "commet":"评论2"
+        }
+    ],
+    "published":true,
+    "author":null
+}`;
+//parse(): JSON字符串转化成json对象   key没有 ""
+//stringify() json对象转化JSON字符串
+console.log(JSON.parse(postJSON)); //{id: 1, title: "标题1", comments: Array(2), published: true, author: null}
+
+var person = {
+    id: 1,
+    name: "风华",
+    skills: ["React", "vue", "angular"],
+};
+console.log(JSON.stringify(person)); //{"id":1,"name":"风华","skills":["React","vue","angular"]}
+
+console.clear();
+
+//set 集合  add(),delete(),clear(),has()
+var set = new Set();
+set.add(1);
+set.add(3);
+set.add(5);
+console.log(set.has(5)); //true
+//set遍历
+set.forEach((value) => console.log(value)); //135
+set.delete(5);
+set.clear();
+console.log(set); //set(0){}
+
+//map 键值对  但key可以是任意元素
+//get() set() has()
+var map = new Map();
+map.set(1, "值1");
+map.set({ key: 1 }, "值2");
+
+console.log(map.get(1)); //值1
+console.log(map.has(1)); //true
+//遍历
+map.forEach((value, key) => {
+    console.log(key, value);
+});
+for (let [key, value] of map) {
+    console.log(key, value);
+}
+
+//iterator 迭代器   map.entries():获取键值对；
+var iterator = map.entries();
+console.log(iterator); //MapIterator {1 => "值1", {…} => "值2"}
+//iterator.next().value 下一个迭代的值
+console.log(iterator.next().value); //[1, "值1"]
+//删除
+map.delete(1);
+
+console.clear();
+
+//异常
+//捕获异常 不会影响程序继续进行
+try {
+    var emp = undefined;
+    console.log(emp.name);
+} catch (err) {
+    console.log(err); //TypeError: Cannot read property 'name' of undefined
+} finally {
+    console.log("总会执行");
+}
+
+//throw 抛出异常
+function fetchDate() {
+    console.log("获取数据");
+    throw "404";
+}
+try {
+    fetchDate();
+} catch (err) {
+    if (err == 404) {
+        console.log("未查询到数据"); //未查询到数据
+    }
+}
+
+//异常  Error对象
+
+function fetchDate() {
+    console.log("获取数据");
+    throw new Error("404");
+}
+try {
+    fetchDate();
+} catch (err) {
+    console.error(err);
+    console.error(err.name); //Error
+    console.error(err.message); //404
+}
+console.clear();
+//API Error
+
+class ApiError extends Error {
+    constructor(url, ...params) {
+        super(...params);
+        this.url = url;
+        this.name = "ApiError";
+    }
+}
+function fetchDate() {
+    console.log("获取数据");
+    throw new ApiError("/post", "404");
+}
+
+try {
+    fetchDate();
+} catch (err) {
+    console.error(err);
+    console.error(err.name); //Error
+    console.error(err.message); //404
+    console.log(err.url); //  /post
+}
+console.clear();
+//捕获多个异常
+class ApiErrorTow extends Error {
+    constructor(url, ...params) {
+        super(...params);
+        this.url = url;
+        this.name = "ApiError";
+    }
+}
+function fetchDate() {
+    console.log("获取数据");
+    console.log(a); //第一个异常
+    throw new ApiErrorTow("/post", "404"); //第二个异常
+}
+
+try {
+    fetchDate();
+} catch (err) {
+    if (err instanceof ReferenceError) {
+        console.log("程序异常");
+    } else if (err instanceof ApiErrorTow) {
+        console.log("API异常");
+    }
+}
+
+console.clear();
+// 异步
+//setTimeout()    clearTimeout()
+console.log("第一行代码");
+var timer1 = setTimeout(() => {
+    console.log("1秒后执行");
+}, 1000);
+console.log("第二行代码");
+setTimeout(() => {
+    clearTimeout(timer1);
+    console.log("中断了 timer1的执行");
+}, 500);
+
+//setInterval()  clearInterval()
+var inter = setInterval(() => {
+    var date = new Date();
+    console.log(`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`);
+}, 1000);
+setTimeout(() => {
+    clearInterval(inter);
+}, 5000);
+
+console.clear();
+
+//耗时的方法用 new Promise((resolve,rejected)=>{})  接受一个回调函数作为参数 ;
+//Promise的api Promise.resolve("test")=new Promise(resolve=>resolve("test"));
+console.clear();
